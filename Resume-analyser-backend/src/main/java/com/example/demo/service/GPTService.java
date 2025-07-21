@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.Map;
 
@@ -35,8 +36,6 @@ public class GPTService {
             return "Error: Cohere API key is not configured. Please check application.properties.";
         }
 
-        String truncatedResume = resumeText.length() > 1000 ? resumeText.substring(0, 1000) + "..." : resumeText;
-
         String prompt = """
 You are an expert HR assistant. The job role is: %s.
 Here is the candidate's resume:
@@ -64,11 +63,11 @@ Format your response with clear section headers and bullet points. Be brief but 
         );
 
         try {
-            Map response = webClient.post()
+            Map<String, Object> response = webClient.post()
                     .uri("/chat")
                     .bodyValue(requestBody)
                     .retrieve()
-                    .bodyToMono(Map.class)
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                     .block();
 
             Object text = response != null ? response.get("text") : null;

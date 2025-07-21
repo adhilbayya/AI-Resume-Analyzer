@@ -74,6 +74,7 @@ public class ResumeController {
         XWPFDocument doc = new XWPFDocument(file.getInputStream());
         XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
         String text = extractor.getText();
+        extractor.close();
         doc.close();
         return text;
     }
