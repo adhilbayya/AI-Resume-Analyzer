@@ -1,0 +1,5 @@
+{
+  "Java Developer": ["Java", "Spring Boot", "REST API", "Hibernate", "MySQL", "Git"],
+  "Frontend Developer": ["HTML", "CSS", "JavaScript", "React", "Redux", "API Integration"],
+  "Data Analyst": ["Python", "Excel", "SQL", "Tableau", "Statistics", "Power BI"]
+}
