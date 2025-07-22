@@ -107,6 +107,14 @@ const ResumeAnalyser = () => {
               className={inputClass + " cursor-pointer"}
             />
           </div>
+          {/* Debug print for selected file info */}
+          {resumeText && resumeText.name && (
+            <div style={{ fontSize: 12, marginBottom: 8 }}>
+              <strong>File:</strong> {resumeText.name} <br />
+              <strong>Type:</strong> {resumeText.type || "N/A"} <br />
+              <strong>Size:</strong> {resumeText.size} bytes
+            </div>
+          )}
           <button
             onClick={handleSubmit}
             disabled={loading}
