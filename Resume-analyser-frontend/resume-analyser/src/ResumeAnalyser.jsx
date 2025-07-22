@@ -32,16 +32,16 @@ const ResumeAnalyser = () => {
     formData.append("role", role);
     formData.append("file", resumeText);
 
+    const api = axios.create({
+      baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080", // Fallback for local development
+    });
+
     try {
-      const res = await axios.post(
-        "http://localhost:8080/resume/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await api.post("/resume/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setResult(res.data);
     } catch {
       setError("Unable to analyse resume");
