@@ -126,57 +126,89 @@ const ResumeAnalyser = () => {
         </div>
         {result && (
           <div
-            className={cardClass + " p-6 rounded-lg mt-8"}
+            className={
+              cardClass +
+              " p-6 rounded-2xl mt-8 shadow-xl border border-gray-200"
+            }
             style={{
-              border: "2px solid red",
-              background: "yellow",
-              color: "black",
-              zIndex: 9999,
-              overflow: "auto",
+              maxWidth: 600,
+              margin: "0 auto",
+              background: darkMode ? "#23272f" : "#fff",
+              color: darkMode ? "#f3f4f6" : "#23272f",
             }}
           >
-            <h3 className="text-xl font-semibold mb-4">AI Resume Insights</h3>
-            {/* Debug print for API result */}
-            <pre
-              style={{
-                background: darkMode ? "#222" : "#eee",
-                color: darkMode ? "#fff" : "#222",
-                padding: 8,
-                borderRadius: 4,
-                fontSize: 12,
-                overflowX: "auto",
-              }}
-            >
-              {JSON.stringify(result, null, 2)}
-            </pre>
-            <div className={proseClass}>
-              <ReactMarkdown>
-                {result.ai_feedback || "No AI feedback available"}
-              </ReactMarkdown>
-            </div>
-            <div className="mt-4 space-y-1">
-              <p>
-                <span className="font-semibold">Role:</span>{" "}
-                {result.role || "N/A"}
-              </p>
-              <p>
-                <span className="font-semibold">Matched Skills:</span>{" "}
-                {Array.isArray(result.skills_found)
-                  ? result.skills_found.join(", ")
-                  : "N/A"}
-              </p>
-              <p>
-                <span className="font-semibold">Missing Skills:</span>{" "}
-                {Array.isArray(result.skills_missing)
-                  ? result.skills_missing.join(", ")
-                  : "N/A"}
-              </p>
-              <p>
-                <span className="font-semibold">Match Score:</span>{" "}
-                {typeof result.match_percent === "number"
-                  ? result.match_percent.toFixed(2) + "%"
-                  : "N/A"}
-              </p>
+            <h3 className="text-2xl font-bold mb-4 text-blue-600">
+              AI Resume Insights
+            </h3>
+            <div className="space-y-4">
+              <section>
+                <h4 className="font-semibold text-lg mb-2 text-green-600 flex items-center">
+                  <span role="img" aria-label="check" className="mr-2">
+                    ✅
+                  </span>{" "}
+                  Matching Skills
+                </h4>
+                <ul className="list-disc ml-6">
+                  {Array.isArray(result.skills_found) &&
+                  result.skills_found.length > 0 ? (
+                    result.skills_found.map((skill, idx) => (
+                      <li key={idx} className="text-green-700 font-medium">
+                        {skill}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-400">None found</li>
+                  )}
+                </ul>
+              </section>
+              <section>
+                <h4 className="font-semibold text-lg mb-2 text-red-600 flex items-center">
+                  <span role="img" aria-label="cross" className="mr-2">
+                    ❌
+                  </span>{" "}
+                  Missing Skills
+                </h4>
+                <ul className="list-disc ml-6">
+                  {Array.isArray(result.skills_missing) &&
+                  result.skills_missing.length > 0 ? (
+                    result.skills_missing.map((skill, idx) => (
+                      <li key={idx} className="text-red-700 font-medium">
+                        {skill}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-400">None missing</li>
+                  )}
+                </ul>
+              </section>
+              <section>
+                <h4 className="font-semibold text-lg mb-2 text-blue-600">
+                  Match Score
+                </h4>
+                <div className="text-2xl font-bold">
+                  {typeof result.match_percent === "number"
+                    ? result.match_percent.toFixed(2) + "%"
+                    : "N/A"}
+                </div>
+              </section>
+              <section>
+                <h4 className="font-semibold text-lg mb-2 text-purple-600">
+                  AI Feedback
+                </h4>
+                <div className={proseClass + " max-w-full"}>
+                  <ReactMarkdown>
+                    {result.ai_feedback || "No AI feedback available"}
+                  </ReactMarkdown>
+                </div>
+              </section>
+              <section>
+                <h4 className="font-semibold text-lg mb-2 text-gray-600">
+                  Role
+                </h4>
+                <div className="text-base font-medium">
+                  {result.role || "N/A"}
+                </div>
+              </section>
             </div>
           </div>
         )}
