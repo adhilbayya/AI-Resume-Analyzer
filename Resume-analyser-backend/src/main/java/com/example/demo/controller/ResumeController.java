@@ -40,6 +40,11 @@ public class ResumeController {
             String contentType = file.getContentType();
             String extractedCode = "";
 
+            // Debug: Log file info
+            System.out.println("[DEBUG] Received file: " + file.getOriginalFilename());
+            System.out.println("[DEBUG] Content-Type: " + contentType);
+            System.out.println("[DEBUG] Size: " + file.getSize() + " bytes");
+
             if(contentType.equals("application/pdf")){
                 extractedCode = extractTextFromPDF(file);
             }else if(contentType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")){
@@ -49,6 +54,9 @@ public class ResumeController {
             } else{
                 return ResponseEntity.badRequest().body("Unsupported file type");
             }
+
+            // Debug: Log extracted text
+            System.out.println("[DEBUG] Extracted text (first 200 chars): " + (extractedCode.length() > 200 ? extractedCode.substring(0, 200) : extractedCode));
 
             Map<String, Object> result = skillMatchService.analyse(role, extractedCode);
             @SuppressWarnings("unchecked")
@@ -67,6 +75,9 @@ public class ResumeController {
         PDDocument doc = Loader.loadPDF(pdfBytes);
         PDFTextStripper textStripper = new PDFTextStripper();
         String text = textStripper.getText(doc);
+
+        // Debug: Log PDF extraction result
+        System.out.println("[DEBUG] PDF extracted text (first 200 chars): " + (text.length() > 200 ? text.substring(0, 200) : text));
 
         doc.close();
         return text;

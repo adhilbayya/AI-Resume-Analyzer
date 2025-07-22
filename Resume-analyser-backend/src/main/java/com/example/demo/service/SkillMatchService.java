@@ -24,19 +24,29 @@ public class SkillMatchService {
     }
 
     public Map<String, Object> analyse(String role, String resumeText){
-        role = role.toLowerCase();
+        // Normalize role: lowercase, trim, collapse whitespace
+        role = role.toLowerCase().trim().replaceAll("\\s+", " ");
+        System.out.println("[DEBUG] Normalized role: '" + role + "'");
         List<String> expectedSkills = skillData.getOrDefault(role, new ArrayList<>());
+
+        // Normalize resume text: lowercase, remove punctuation, collapse whitespace
+        String normalizedResume = resumeText.toLowerCase().replaceAll("[^a-z0-9 ]", " ").replaceAll("\\s+", " ");
+        System.out.println("[DEBUG] Normalized resume text (first 300 chars): " + (normalizedResume.length() > 300 ? normalizedResume.substring(0, 300) : normalizedResume));
+        System.out.println("[DEBUG] Expected skills: " + expectedSkills);
 
         List<String> found = new ArrayList<>();
         List<String> missing = new ArrayList<>();
 
         for(String skill : expectedSkills){
-            if(resumeText.toLowerCase().contains(skill.toLowerCase())){
+            String normalizedSkill = skill.toLowerCase().replaceAll("[^a-z0-9 ]", " ").replaceAll("\\s+", " ").trim();
+            if(normalizedResume.contains(normalizedSkill)){
                 found.add(skill);
             }else{
                 missing.add(skill);
             }
         }
+        System.out.println("[DEBUG] Skills found: " + found);
+        System.out.println("[DEBUG] Skills missing: " + missing);
         double matchPercent = expectedSkills.isEmpty() ? 0 : (double) found.size() / expectedSkills.size() * 100;
         Map<String, Object> result = new HashMap<>();
         result.put("role", role);
