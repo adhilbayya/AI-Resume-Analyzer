@@ -125,7 +125,16 @@ const ResumeAnalyser = () => {
           {error && <p className="text-red-400 mt-3">{error}</p>}
         </div>
         {result && (
-          <div className={cardClass + " p-6 rounded-lg mt-8"}>
+          <div
+            className={cardClass + " p-6 rounded-lg mt-8"}
+            style={{
+              border: "2px solid red",
+              background: "yellow",
+              color: "black",
+              zIndex: 9999,
+              overflow: "auto",
+            }}
+          >
             <h3 className="text-xl font-semibold mb-4">AI Resume Insights</h3>
             {/* Debug print for API result */}
             <pre
