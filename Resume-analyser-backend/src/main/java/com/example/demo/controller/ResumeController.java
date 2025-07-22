@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:5173", "https://ai-resume-analyzer-lovat-phi.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://ai-resume-analyzer-lovat-phi.vercel.app"},
+allowedHeaders = "*",
+methods = {RequestMethod.POST, RequestMethod.OPTIONS})
 @RestController
 @RequestMapping("/resume")
 public class ResumeController {
