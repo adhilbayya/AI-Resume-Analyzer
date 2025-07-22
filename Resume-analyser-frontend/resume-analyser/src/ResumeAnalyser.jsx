@@ -119,6 +119,19 @@ const ResumeAnalyser = () => {
         {result && (
           <div className={cardClass + " p-6 rounded-lg mt-8"}>
             <h3 className="text-xl font-semibold mb-4">AI Resume Insights</h3>
+            {/* Debug print for API result */}
+            <pre
+              style={{
+                background: darkMode ? "#222" : "#eee",
+                color: darkMode ? "#fff" : "#222",
+                padding: 8,
+                borderRadius: 4,
+                fontSize: 12,
+                overflowX: "auto",
+              }}
+            >
+              {JSON.stringify(result, null, 2)}
+            </pre>
             <div className={proseClass}>
               <ReactMarkdown>
                 {result.ai_feedback || "No AI feedback available"}
@@ -126,19 +139,26 @@ const ResumeAnalyser = () => {
             </div>
             <div className="mt-4 space-y-1">
               <p>
-                <span className="font-semibold">Role:</span> {result.role}
+                <span className="font-semibold">Role:</span>{" "}
+                {result.role || "N/A"}
               </p>
               <p>
                 <span className="font-semibold">Matched Skills:</span>{" "}
-                {result.skills_found.join(", ")}
+                {Array.isArray(result.skills_found)
+                  ? result.skills_found.join(", ")
+                  : "N/A"}
               </p>
               <p>
                 <span className="font-semibold">Missing Skills:</span>{" "}
-                {result.skills_missing.join(", ")}
+                {Array.isArray(result.skills_missing)
+                  ? result.skills_missing.join(", ")
+                  : "N/A"}
               </p>
               <p>
                 <span className="font-semibold">Match Score:</span>{" "}
-                {result.match_percent?.toFixed(2)}%
+                {typeof result.match_percent === "number"
+                  ? result.match_percent.toFixed(2) + "%"
+                  : "N/A"}
               </p>
             </div>
           </div>
