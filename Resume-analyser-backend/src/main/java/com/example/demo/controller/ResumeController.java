@@ -40,7 +40,7 @@ public class ResumeController {
             String contentType = file.getContentType();
             String extractedCode = "";
 
-            // Debug: Log file info
+            
             System.out.println("[DEBUG] Received file: " + file.getOriginalFilename());
             System.out.println("[DEBUG] Content-Type: " + contentType);
             System.out.println("[DEBUG] Size: " + file.getSize() + " bytes");
@@ -55,14 +55,20 @@ public class ResumeController {
                 return ResponseEntity.badRequest().body("Unsupported file type");
             }
 
-            // Debug: Log extracted text
+            
             System.out.println("[DEBUG] Extracted text (first 200 chars): " + (extractedCode.length() > 200 ? extractedCode.substring(0, 200) : extractedCode));
 
             Map<String, Object> result = skillMatchService.analyse(role, extractedCode);
             @SuppressWarnings("unchecked")
+            java.util.List<String> skillsFound = (java.util.List<String>) result.get("skills_found");
+            @SuppressWarnings("unchecked")
             java.util.List<String> skillsMissing = (java.util.List<String>) result.get("skills_missing");
-            String aiFeedback = gptService.getAnalysis(role, extractedCode, skillsMissing);
-
+            String aiFeedback;
+            if (skillsFound == null || skillsFound.isEmpty()) {
+                aiFeedback = "No matching skills found. Please update your resume to include relevant skills for this role.";
+            } else {
+                aiFeedback = gptService.getAnalysis(role, extractedCode, skillsMissing);
+            }
             result.put("ai_feedback", aiFeedback);
 
             return ResponseEntity.ok(result);
@@ -76,7 +82,7 @@ public class ResumeController {
         PDFTextStripper textStripper = new PDFTextStripper();
         String text = textStripper.getText(doc);
 
-        // Debug: Log PDF extraction result
+        
         System.out.println("[DEBUG] PDF extracted text (first 200 chars): " + (text.length() > 200 ? text.substring(0, 200) : text));
 
         doc.close();

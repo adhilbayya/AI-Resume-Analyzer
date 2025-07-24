@@ -24,12 +24,11 @@ public class SkillMatchService {
     }
 
     public Map<String, Object> analyse(String role, String resumeText){
-        // Normalize role: lowercase, trim, collapse whitespace
         role = role.toLowerCase().trim().replaceAll("\\s+", " ");
         System.out.println("[DEBUG] Normalized role: '" + role + "'");
         List<String> expectedSkills = skillData.getOrDefault(role, new ArrayList<>());
 
-        // Normalize resume text: lowercase, remove punctuation, collapse whitespace
+       
         String normalizedResume = resumeText.toLowerCase().replaceAll("[^a-z0-9 ]", " ").replaceAll("\\s+", " ");
         System.out.println("[DEBUG] Normalized resume text (first 300 chars): " + (normalizedResume.length() > 300 ? normalizedResume.substring(0, 300) : normalizedResume));
         System.out.println("[DEBUG] Expected skills: " + expectedSkills);
