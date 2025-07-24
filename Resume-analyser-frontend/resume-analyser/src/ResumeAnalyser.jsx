@@ -72,9 +72,27 @@ const ResumeAnalyser = () => {
       className={bgClass}
       style={{ fontFamily: FONT_FAMILY, minHeight: "100vh", paddingBottom: 40 }}
     >
-      <div className="max-w-xl mx-auto pt-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold tracking-tight">
+      {/* Top bar with heading, feedback, and dark/light toggle */}
+      <div
+        className="w-full shadow-md mb-8"
+        style={{
+          background: darkMode ? "#1e293b" : "#f1f5f9",
+          padding: "18px 0 18px 0",
+          borderRadius: 12,
+        }}
+      >
+        <div className="max-w-xl mx-auto flex justify-between items-center px-4">
+          <h2
+            className="text-3xl font-bold tracking-tight"
+            style={{
+              color: darkMode ? "#e5e7eb" : "#1e293b",
+              textShadow: "2px 2px 8px rgba(30,41,59,0.25)",
+              marginLeft: 24,
+              marginBottom: 0,
+              marginTop: 0,
+              padding: 0,
+            }}
+          >
             AI Resume Enhancer
           </h2>
           <div className="flex items-center gap-2">
@@ -94,14 +112,16 @@ const ResumeAnalyser = () => {
               Feedback
             </button>
             <button
-              className={`px-3 py-1 rounded transition ${toggleClass}`}
+              className={`ml-2 px-3 py-1 rounded transition ${toggleClass}`}
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Toggle dark/light mode"
             >
-              {darkMode ? "🌙 Dark" : "☀️ Light"}
+              {darkMode ? "🌙" : "☀️"}
             </button>
           </div>
         </div>
+      </div>
+      <div className="max-w-xl mx-auto pt-10">
         <div className={cardClass + " p-6 rounded-lg mb-6"}>
           <div className="mb-4">
             <label className="mb-1 block font-semibold">Target Role:</label>
