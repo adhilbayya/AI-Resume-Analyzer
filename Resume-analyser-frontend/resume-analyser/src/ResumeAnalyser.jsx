@@ -33,7 +33,7 @@ const ResumeAnalyser = () => {
     formData.append("file", resumeText);
 
     const api = axios.create({
-      baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080", // Fallback for local development
+      baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080",
     });
 
     try {
@@ -107,7 +107,7 @@ const ResumeAnalyser = () => {
               className={inputClass + " cursor-pointer"}
             />
           </div>
-          {/* Debug print for selected file info */}
+          {}
           {resumeText && resumeText.name && (
             <div style={{ fontSize: 12, marginBottom: 8 }}>
               <strong>File:</strong> {resumeText.name} <br />
