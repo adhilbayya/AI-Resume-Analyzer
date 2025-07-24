@@ -77,13 +77,30 @@ const ResumeAnalyser = () => {
           <h2 className="text-3xl font-bold tracking-tight">
             AI Resume Enhancer
           </h2>
-          <button
-            className={`px-3 py-1 rounded transition ${toggleClass}`}
-            onClick={() => setDarkMode(!darkMode)}
-            aria-label="Toggle dark/light mode"
-          >
-            {darkMode ? "🌙 Dark" : "☀️ Light"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              className={`px-3 py-1 rounded transition ${toggleClass}`}
+              onClick={() =>
+                (window.location.href = "mailto:adhilvk445@gmail.com")
+              }
+              aria-label="Send feedback via email"
+              style={{
+                fontWeight: 600,
+                border: "1px solid #2563eb",
+                color: darkMode ? "#93c5fd" : "#2563eb",
+                background: "transparent",
+              }}
+            >
+              Feedback
+            </button>
+            <button
+              className={`px-3 py-1 rounded transition ${toggleClass}`}
+              onClick={() => setDarkMode(!darkMode)}
+              aria-label="Toggle dark/light mode"
+            >
+              {darkMode ? "🌙 Dark" : "☀️ Light"}
+            </button>
+          </div>
         </div>
         <div className={cardClass + " p-6 rounded-lg mb-6"}>
           <div className="mb-4">
